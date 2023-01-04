@@ -1,4 +1,4 @@
-title: Bump Gitjob Chart in Fleet
+name: Bump Gitjob Chart in Fleet
 
 scms:
   fleet:
@@ -6,11 +6,11 @@ scms:
     spec:
       user: fleet-bot
       email: fleet@olblak.com
-      owner: rancher
+      owner: olblak
       repository: fleet
       token: '{{ requiredEnv "UPDATECLI_GITHUB_TOKEN" }}'
       username: '{{ requiredEnv "UPDATECLI_GITHUB_ACTOR" }}'
-      branch: master
+      branch: test_update_gitjob_with_updatecli
 
 sources:
   gitjobversion:
@@ -23,6 +23,7 @@ sources:
       username: '{{ requiredEnv "UPDATECLI_GITHUB_ACTOR" }}'
       versionfilter:
         kind: semver
+        pattern: "~0.1.30"
     # The assets name do not contains the 'v' prefix before the version
     transformers:
       - trimprefix: v
@@ -49,3 +50,4 @@ actions:
       mergemethod: squash
       labels:
         - dependencies
+
