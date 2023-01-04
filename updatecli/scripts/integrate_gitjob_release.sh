@@ -12,10 +12,17 @@ then
     exit 0
 fi
 
-if [[ "$VERSION" == "$(sed -n "s/^version: \([.0-9]*\)/\1/p" ./charts/fleet/charts/gitjob/Chart.yaml)" ]]
+CURRENT_VERSION="$(sed -n "s/^version: \([.0-9]*\)/\1/p" ./charts/fleet/charts/gitjob/Chart.yaml)"
+if [[ "$VERSION" == "$CURRENT_VERSION" ]]
 then
     echo "The Gitjob chart in Fleet is already up to date. Exiting..."
     exit 0
+fi
+
+if test "$DRY_RUN" == "true"
+then
+  echo "**DRY_RUN** version update needed from $CURRENT_VERSION to $VERSION to  will be created"
+  exit 0
 fi
 
 curl -L -o "/tmp/gitjob-${VERSION}.tgz" "https://github.com/rancher/gitjob/releases/download/v${VERSION}/gitjob-${VERSION}.tgz"
